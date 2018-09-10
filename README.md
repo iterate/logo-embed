@@ -1,3 +1,46 @@
+# LOGO EMBED
+
+Denne koden er foreløpig bare hacka til fra eksempel-kode fra 
+[Nerves Examples](https://github.com/nerves-project/nerves_examples/tree/master/hello_network).
+
+Mas på Oddmund om å forbedre Readme og kode. Og/eller gjør det selv.
+
+## Bygg
+
+For å bygge trenger du [div stæsj](https://hexdocs.pm/nerves/installation.html).
+
+For å bygge skriver må du oppgi _target_ som for oss er `rpi0`, altså _Raspberry Pi Zero_.
+
+```bash
+export MIX_TARGET=rpi0
+```
+
+og så bygger man firmware med
+
+```bash
+mix firmware
+```
+
+og så kan du enten _brenne_ firmware til sd-kort med
+
+```bash
+mix firmware.burn
+```
+
+eller om du er så heldig å allerede ha logoen oppe å kjøre og har bygget fra
+samme maskin du sitter på:
+
+```bash
+mix firmware.push hello_network.local
+```
+
+
+Under følger original Readme for nyttens skyld
+
+---
+---
+---
+
 # Hello Network
 
 This example shows how to connect your Nerves device to the network using wired
