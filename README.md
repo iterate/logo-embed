@@ -9,6 +9,8 @@ Mas på Oddmund om å forbedre Readme og kode. Og/eller gjør det selv.
 
 For å bygge trenger du [div stæsj](https://hexdocs.pm/nerves/installation.html).
 
+I `config/config.exs` må du skrive inn riktig trådløsnett og passord. OBS: Rpi0-en støtter bare 2.4 Ghz nett, tror jeg. (Ellers så var det ESP-8266 (jeg er usikker))
+
 For å bygge skriver må du oppgi _target_ som for oss er `rpi0`, altså _Raspberry Pi Zero_.
 
 ```bash
