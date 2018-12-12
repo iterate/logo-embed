@@ -44,8 +44,8 @@ config :nerves_firmware_ssh,
 node_name = if Mix.env() != :prod, do: "logo"
 
 config :nerves_init_gadget,
-  ifname: "usb0",
-  address_method: :dhcpd,
+  ifname: "wlan0",
+  address_method: :dhcp,
   mdns_domain: "logo.local",
   node_name: node_name,
   node_host: :mdns_domain
@@ -55,3 +55,15 @@ config :nerves_init_gadget,
 # Uncomment to use target specific configurations
 
 # import_config "#{Mix.Project.config[:target]}.exs"
+
+config :nerves_network,
+  regulatory_domain: "NO"
+
+key_mgmt = System.get_env("NERVES_NETWORK_KEY_MGMT") || "WPA-PSK"
+
+config :nerves_network, :default,
+  wlan0: [
+    ssid: System.get_env("NERVES_NETWORK_SSID"),
+    psk: System.get_env("NERVES_NETWORK_PSK"),
+    key_mgmt: String.to_atom(key_mgmt)
+  ]
