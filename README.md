@@ -1,32 +1,37 @@
 # Logo
 
-**TODO: Add description**
+## Konfig
 
-## Targets
+For å bygge firmware må man sette tre miljøvariabler der man bygger fra.
 
-Nerves applications produce images for hardware targets based on the
-`MIX_TARGET` environment variable. If `MIX_TARGET` is unset, `mix` builds an
-image that runs on the host (e.g., your laptop). This is useful for executing
-logic tests, running utilities, and debugging. Other targets are represented by
-a short name like `rpi3` that maps to a Nerves system image for that platform.
-All of this logic is in the generated `mix.exs` and may be customized. For more
-information about targets see:
+`MIX_TARGET` skal antakeligvis være `rpi0` som betyr at vi bygger for Raspberry
+Pi Zero.
 
-https://hexdocs.pm/nerves/targets.html#content
+`NERVES_NETWORK_SSID` og `NERVES_NETWORK_PSK` som er navnet og passordet til
+WiFi-en **Logo** skal koble seg til.
 
-## Getting Started
+## Bygg
 
-To start your Nerves app:
-  * `export MIX_TARGET=my_target` or prefix every command with
-    `MIX_TARGET=my_target`. For example, `MIX_TARGET=rpi3`
-  * Install dependencies with `mix deps.get`
-  * Create firmware with `mix firmware`
-  * Burn to an SD card with `mix firmware.burn`
+```shell
+mix firmware
+```
 
-## Learn more
+## Deploy
 
-  * Official docs: https://hexdocs.pm/nerves/getting-started.html
-  * Official website: https://nerves-project.org/
-  * Forum: https://elixirforum.com/c/nerves-forum
-  * Discussion Slack elixir-lang #nerves ([Invite](https://elixir-slackin.herokuapp.com/))
-  * Source: https://github.com/nerves-project/nerves
+Slik det er nå kan den som har bygd nåværende firmware pushe ny firmware over
+SSH. Si ifra om du har lyst til å pushe firmware, så finner vi en ordning.
+
+
+## Les deg opp
+
+* [**Elixir**](https://elixir-lang.org) er språket **Logo** er skrevet i.
+* [**Raspberry Pi**](https://www.raspberrypi.org/) er skikkelig liten datamaskin.
+* [**Nerves**](https://nerves-project.org) er prosjektet som gjør det praktisk å
+  kjøre Elixir på en Raspberry Pi.
+* [**Neopixel**](https://learn.adafruit.com/adafruit-neopixel-uberguide/the-magic-of-neopixels)
+  er en type "smarte" RGB(W) LEDs fra [**Adafruit**](https://adafruit.com). Vår
+  ambisjon er å bruke 43
+  [**Neopixel-matriser**](https://www.adafruit.com/product/1487)
+  (enten fra Adafruit eller China).
+* [**blinkchain**](https://github.com/GregMefford/blinkchain) er et bibliotek 
+  gjør det praktisk å kontrollere Neopixels fra Nerves.
