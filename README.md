@@ -19,7 +19,8 @@ mix firmware
 ## Deploy
 
 Slik det er nå kan den som har bygd nåværende firmware pushe ny firmware over
-SSH. Si ifra om du har lyst til å pushe firmware, så finner vi en ordning.
+SSH med `mix firmware.push logo.local`. Si ifra om du har lyst til å pushe
+firmware, så finner vi en ordning.
 
 
 ## Les deg opp
