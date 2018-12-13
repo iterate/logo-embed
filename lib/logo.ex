@@ -9,7 +9,7 @@ defmodule Logo do
   ## Examples
 
       iex> Logo.hello
-      :world
+      :nerds
 
   """
   def hello do

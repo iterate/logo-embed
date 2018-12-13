@@ -3,6 +3,6 @@ defmodule LogoTest do
   doctest Logo
 
   test "greets the world" do
-    assert Logo.hello() == :world
+    assert Logo.hello() == :nerds
   end
 end
