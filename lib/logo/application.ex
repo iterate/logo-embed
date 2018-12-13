@@ -26,6 +26,7 @@ defmodule Logo.Application do
     [
       # Starts a worker by calling: Logo.Worker.start_link(arg)
       # {Logo.Worker, arg},
+      Rainbow.Worker
     ]
   end
 end

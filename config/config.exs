@@ -70,3 +70,17 @@ config :nerves_network, :default,
 
 config :blinkchain,
   canvas: {8, 8}
+
+config :blinkchain, :channel0,
+  pin: 18,
+  type: :grb,
+  brightness: 32,
+  arrangement: [
+    %{
+      type: :matrix,
+      origin: {0, 0},
+      count: {8, 8},
+      direction: {:right, :down},
+      progressive: true
+    }
+  ]
