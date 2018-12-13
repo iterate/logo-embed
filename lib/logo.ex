@@ -13,6 +13,6 @@ defmodule Logo do
 
   """
   def hello do
-    :world
+    :nerds
   end
 end
