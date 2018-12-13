@@ -29,9 +29,11 @@ firmware, så finner vi en ordning.
 * [**Raspberry Pi**](https://www.raspberrypi.org/) er skikkelig liten datamaskin.
 * [**Nerves**](https://nerves-project.org) er prosjektet som gjør det praktisk å
   kjøre Elixir på en Raspberry Pi.
+* [**WS2812B**](https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf) er en
+  type LED som teoretisk kan vise 1677216 forskjellige farger.
 * [**Neopixel**](https://learn.adafruit.com/adafruit-neopixel-uberguide/the-magic-of-neopixels)
-  er en type "smarte" RGB(W) LEDs fra [**Adafruit**](https://adafruit.com). Vår
-  ambisjon er å bruke 43
+  er en type "smarte" RGB(W) LEDs (WS2812B) fra
+  [**Adafruit**](https://adafruit.com). Vår ambisjon er å bruke 43
   [**Neopixel-matriser**](https://www.adafruit.com/product/1487)
   (enten fra Adafruit eller China).
 * [**blinkchain**](https://github.com/GregMefford/blinkchain) er et bibliotek 
