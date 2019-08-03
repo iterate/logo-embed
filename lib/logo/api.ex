@@ -21,7 +21,7 @@ defmodule Logo.Api do
   end
 
   def draw_logo do
-    [i, t1, _e, _r, _a, _t2, e2] = get_latest()
+    [i, t1, e1, r, a, t2, e2] = get_latest()
 
     draw_block(i, 0, {0, 0})
     draw_block(i, 1, {0, 2})
@@ -34,6 +34,36 @@ defmodule Logo.Api do
     draw_block(t1, 4, {1, 3})
     draw_block(t1, 5, {2, 3})
     draw_block(t1, 6, {3, 3})
+
+    draw_block(e1, 0, {4, 1})
+    draw_block(e1, 1, {5, 1})
+    draw_block(e1, 2, {6, 1})
+    draw_block(e1, 3, {4, 2})
+    draw_block(e1, 4, {6, 2})
+    draw_block(e1, 5, {4, 3})
+    draw_block(e1, 6, {5, 3})
+
+    draw_block(r, 0, {7, 1})
+    draw_block(r, 1, {8, 1})
+    draw_block(r, 2, {9, 1})
+    draw_block(r, 3, {7, 2})
+    draw_block(r, 4, {7, 3})
+
+    draw_block(a, 0, {11, 1})
+    draw_block(a, 1, {12, 1})
+    draw_block(a, 2, {10, 2})
+    draw_block(a, 3, {12, 2})
+    draw_block(a, 4, {10, 3})
+    draw_block(a, 5, {11, 3})
+    draw_block(a, 6, {12, 3})
+
+    draw_block(t2, 0, {13, 0})
+    draw_block(t2, 1, {13, 1})
+    draw_block(t2, 2, {14, 1})
+    draw_block(t2, 3, {13, 2})
+    draw_block(t2, 4, {13, 3})
+    draw_block(t2, 5, {14, 3})
+    draw_block(t2, 6, {15, 3})
 
     draw_block(e2, 0, {16, 1})
     draw_block(e2, 1, {17, 1})
