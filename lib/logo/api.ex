@@ -21,7 +21,7 @@ defmodule Logo.Api do
   end
 
   def draw_logo do
-    [i, t1, _e, _r, _a, _t2, e2] = get_latest()
+    [i, t1, e, r, a, t2, e2] = get_latest()
 
     draw_block(i, 0, {0, 0})
     draw_block(i, 1, {0, 2})
