@@ -1,5 +1,7 @@
 use Mix.Config
 
+linear = 0..255 |> Enum.to_list()
+
 gamma = [
   0,
   0,
@@ -319,8 +321,8 @@ config :blinkchain, canvas: {8 * 19, 8 * 4}
 config :blinkchain, :channel0,
   pin: 18,
   type: :grb,
-  brightness: 32,
-  gamma: gamma,
+  brightness: 128,
+  gamma: linear,
   arrangement:
     for(
       {x, y} <- channel0,
@@ -336,7 +338,7 @@ config :blinkchain, :channel0,
 config :blinkchain, :channel1,
   pin: 13,
   type: :grb,
-  brightness: 32,
+  brightness: 128,
   gamma: gamma,
   arrangement:
     for(
