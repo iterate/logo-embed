@@ -1,6 +1,8 @@
 defmodule Logo.Api do
   require Logger
 
+  alias Logo.Skilt
+
   def get_latest() do
     case HTTPoison.get("https://logo.app.iterate.no/logo") do
       {:ok, %HTTPoison.Response{body: body}} ->
@@ -35,11 +37,7 @@ defmodule Logo.Api do
   end
 
   def draw_logo(itera) do
-    Blinkchain.fill(%Blinkchain.Point{x: 0, y: 0}, 19 * 8, 4 * 8, %Blinkchain.Color{
-      r: 0,
-      g: 0,
-      b: 0
-    })
+    Skilt.fill(%Blinkchain.Color{r: 0, g: 0, b: 0})
 
     case get_latest() do
       {:error, error} ->
@@ -98,7 +96,7 @@ defmodule Logo.Api do
           draw_block(e2, 6, {17, 3})
         end
 
-        Blinkchain.render()
+        Skilt.render()
     end
   end
 
@@ -113,7 +111,7 @@ defmodule Logo.Api do
       row
       |> Enum.with_index()
       |> Enum.each(fn {colorstring, columnindex} ->
-        Blinkchain.set_pixel(
+        Skilt.set_pixel(
           %Blinkchain.Point{x: columnindex + block_x * 8, y: rowindex + block_y * 8},
           Blinkchain.Color.parse(colorstring)
         )
