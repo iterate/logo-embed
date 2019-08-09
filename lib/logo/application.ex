@@ -13,7 +13,9 @@ defmodule Logo.Application do
     children =
       [
         Logo.Demos.LiveLogo,
-        Logo.Skilt
+        # Logo.Skilt,
+        # Logo.Binskilt
+        Rainbow.Worker
         # Children for all targets
         # Starts a worker by calling: Logo.Worker.start_link(arg)
         # {Logo.Worker, arg},

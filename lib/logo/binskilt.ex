@@ -1,5 +1,7 @@
-defmodule Logo.Skilt do
+defmodule Logo.Binskilt do
   use GenServer
+
+  require Logger
 
   alias Blinkchain.Color
   alias Blinkchain.Point
@@ -17,14 +19,7 @@ defmodule Logo.Skilt do
 
   @spec init(any) :: {:ok, Logo.Skilt.LiveLogo.State.t()}
   def init(_opts) do
-    buffer =
-      for x <- 0..(@width - 1), y <- 0..(@height - 1) do
-        {%Point{x: x, y: y}, %Color{r: 0, g: 0, b: 0}}
-      end
-      |> Enum.reduce(
-        Map.new(),
-        fn {point, color}, acc -> Map.put(acc, point, color) end
-      )
+    buffer = <<0, 0, 0>> |> :binary.copy(8 * 8 * 19 * 4)
 
     state = %State{buffer: buffer, dirty: true}
     {:ok, state}
@@ -53,46 +48,52 @@ defmodule Logo.Skilt do
   # casts
 
   def handle_call({:set_pixel, {point, color}}, _from, state) do
+    headpos = (point.x + point.y * 8 * 19) * 3 * 8
+    taillength = ((state.buffer |> :binary.referenced_byte_size()) - (headpos + 3)) * 8
+
+    Logger.warn("point: #{inspect(point)}")
+    Logger.warn("color: #{inspect(color)}")
+    Logger.warn("headpos: #{headpos}")
+    Logger.warn("taillength: #{taillength}")
+    Logger.warn("buffersize: #{(state.buffer |> :binary.referenced_byte_size()) * 8}")
+
+    <<head::size(headpos), r, g, b, tail::size(taillength)>> = state.buffer
+
     {buffer, dirty} =
-      case(Map.get(state.buffer, point)) do
+      case(%Color{r: r, g: g, b: b}) do
         ^color ->
           {state.buffer, state.dirty}
 
-        nil ->
-          {state.buffer, state.dirty}
-
         _different_color ->
-          {state.buffer |> Map.put(point, color), true}
+          {<<head::size(headpos), color.r, color.g, color.b, tail::size(taillength)>>, true}
       end
 
     {:reply, nil, %State{buffer: buffer, dirty: dirty}}
   end
 
   def handle_call(:render, _from, state) do
-    state =
-      case state.dirty do
-        true ->
-          state.buffer
-          |> Enum.each(fn {point, color} ->
-            Blinkchain.set_pixel(point, color)
-          end)
+    GenServer.call(Blinkchain.HAL, {:blit, %Point{x: 0, y: 0}, @width, @height, state.buffer})
 
-          Blinkchain.render()
-          %State{buffer: state.buffer, dirty: false}
+    # state =
+    #   case state.dirty do
+    #     true ->
+    #       state.buffer
+    #       |> Enum.each(fn {point, color} ->
+    #         Blinkchain.set_pixel(point, color)
+    #       end)
 
-        false ->
-          state
-      end
+    #       Blinkchain.render()
+    #       %State{buffer: state.buffer, dirty: false}
 
-    {:reply, nil, state}
+    #     false ->
+    #       state
+    #   end
+
+    {:reply, nil, %State{buffer: state.buffer, dirty: false}}
   end
 
-  def handle_call({:fill, color}, _from, state) do
-    buffer =
-      state.buffer
-      |> Enum.reduce(Map.new(), fn {point, _color}, acc ->
-        Map.put(acc, point, color)
-      end)
+  def handle_call({:fill, color}, _from, _state) do
+    buffer = <<color.r, color.g, color.b>> |> :binary.copy(8 * 8 * 19 * 4)
 
     {:reply, nil, %State{buffer: buffer, dirty: true}}
   end

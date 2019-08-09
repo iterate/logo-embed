@@ -25,10 +25,9 @@ defmodule Rainbow.Worker do
   def init(_opts) do
     # Send ourselves a message to draw each frame every 33 ms,
     # which will end up being approximately 15 fps.
-    {:ok, ref} = :timer.send_interval(20, :draw_frame)
 
     state = %State{
-      timer: ref,
+      timer: nil,
       colors: @colors
     }
 
