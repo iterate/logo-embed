@@ -4,8 +4,10 @@ defmodule Logo.Api do
   alias Logo.Skilt
   alias Logo.Binskilt
 
+  @logoapi "https://logo-api.g2.iterate.no"
+
   def get_latest() do
-    case HTTPoison.get("https://logo.app.iterate.no/logo") do
+    case HTTPoison.get("#{@logoapi}/logo") do
       {:ok, %HTTPoison.Response{body: body}} ->
         {:ok, body |> Jason.decode!() |> Map.get("logo")}
 
@@ -15,7 +17,7 @@ defmodule Logo.Api do
   end
 
   def get_mode() do
-    case HTTPoison.get("https://logo.app.iterate.no/mode") do
+    case HTTPoison.get("#{@logoapi}/mode") do
       {:ok, %HTTPoison.Response{body: body}} -> {:ok, body}
       {:error, error} -> {:error, error}
     end
