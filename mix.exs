@@ -48,6 +48,7 @@ defmodule Logo.MixProject do
       {:nerves_time, "~> 0.2"},
       {:jason, "~> 1.1"},
       {:benchee, "~> 1.0"},
+      {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
 
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.6", targets: @all_targets},
