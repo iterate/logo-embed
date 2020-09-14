@@ -12,8 +12,9 @@ defmodule Logo.Application do
 
     children =
       [
-        Logo.Demos.LiveLogo
-        # Logo.Skilt,
+        #  Logo.Demos.LiveLogo
+        Logo.Demos.History
+        # Logo.Skilt
         # Logo.Binskilt
         # Rainbow.Worker
         # Children for all targets

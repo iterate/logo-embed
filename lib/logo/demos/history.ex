@@ -1,7 +1,7 @@
 defmodule Logo.Demos.History do
   alias Logo.Demos.History.Png
   alias Logo.Demos.History.Cbp
-  alias Logo.Skil
+  alias Logo.Skilt
 
   require Logger
 
@@ -14,20 +14,20 @@ defmodule Logo.Demos.History do
   end
 
   def init(_opts) do
-    timestamps = get_timestamps()
+    HTTPoison.start()
     {:ok, ref} = :timer.send_interval(33, :draw_frame)
-    {:ok, %{timestamps: timestamps, timer: ref}}
+    {:ok, %{timestamps: [], ref: ref}}
   end
 
   def handle_info(:draw_frame, %{timestamps: [], ref: ref}) do
     timestamps = get_timestamps()
-    {:ok, %{timestamps: timestamps, ref: ref}}
+    {:noreply, %{timestamps: timestamps, ref: ref}}
   end
 
   def handle_info(:draw_frame, %{timestamps: timestamps, ref: ref}) do
     [timestamp | rest] = timestamps
-    timestamp |> get_frame() |> draw_logo()
-    {:ok, %{timestamps: rest, ref: ref}}
+    timestamp |> get_frame() |> draw_logo_blinkchain()
+    {:noreply, %{timestamps: rest, ref: ref}}
   end
 
   def get_timestamps() do
@@ -35,6 +35,10 @@ defmodule Logo.Demos.History do
            HTTPoison.get("https://logo-png.app.iterate.no/api/v1/history/index"),
          {:ok, times} <- Jason.decode(body) do
       times |> Enum.map(&Map.get(&1, "time"))
+    else
+      {:error, reason} ->
+        Logger.warn("Something is off with timestampgetting")
+        []
     end
   end
 
@@ -156,6 +160,86 @@ defmodule Logo.Demos.History do
       |> Enum.with_index()
       |> Enum.each(fn {colorstring, columnindex} ->
         Skilt.set_pixel(
+          %Blinkchain.Point{x: columnindex + block_x * 8, y: rowindex + block_y * 8},
+          Blinkchain.Color.parse(colorstring)
+        )
+      end)
+    end)
+  end
+
+  def draw_logo_blinkchain(cbp) do
+    Blinkchain.fill(%Blinkchain.Point{x: 0, y: 0}, 8 * 19, 8 * 4, %Blinkchain.Color{
+      r: 0,
+      g: 0,
+      b: 0
+    })
+
+    [i, t1, e1, r, a, t2, e2] = cbp
+    draw_block_blinkchain(i, 0, {0, 0})
+    draw_block_blinkchain(i, 1, {0, 2})
+    draw_block_blinkchain(i, 2, {0, 3})
+
+    draw_block_blinkchain(t1, 0, {1, 0})
+    draw_block_blinkchain(t1, 1, {1, 1})
+    draw_block_blinkchain(t1, 2, {2, 1})
+    draw_block_blinkchain(t1, 3, {1, 2})
+    draw_block_blinkchain(t1, 4, {1, 3})
+    draw_block_blinkchain(t1, 5, {2, 3})
+    draw_block_blinkchain(t1, 6, {3, 3})
+
+    draw_block_blinkchain(e1, 0, {4, 1})
+    draw_block_blinkchain(e1, 1, {5, 1})
+    draw_block_blinkchain(e1, 2, {6, 1})
+    draw_block_blinkchain(e1, 3, {4, 2})
+    draw_block_blinkchain(e1, 4, {6, 2})
+    draw_block_blinkchain(e1, 5, {4, 3})
+    draw_block_blinkchain(e1, 6, {5, 3})
+
+    draw_block_blinkchain(r, 0, {7, 1})
+    draw_block_blinkchain(r, 1, {8, 1})
+    draw_block_blinkchain(r, 2, {9, 1})
+    draw_block_blinkchain(r, 3, {7, 2})
+    draw_block_blinkchain(r, 4, {7, 3})
+
+    draw_block_blinkchain(a, 0, {11, 1})
+    draw_block_blinkchain(a, 1, {12, 1})
+    draw_block_blinkchain(a, 2, {10, 2})
+    draw_block_blinkchain(a, 3, {12, 2})
+    draw_block_blinkchain(a, 4, {10, 3})
+    draw_block_blinkchain(a, 5, {11, 3})
+    draw_block_blinkchain(a, 6, {12, 3})
+
+    draw_block_blinkchain(t2, 0, {13, 0})
+    draw_block_blinkchain(t2, 1, {13, 1})
+    draw_block_blinkchain(t2, 2, {14, 1})
+    draw_block_blinkchain(t2, 3, {13, 2})
+    draw_block_blinkchain(t2, 4, {13, 3})
+    draw_block_blinkchain(t2, 5, {14, 3})
+    draw_block_blinkchain(t2, 6, {15, 3})
+
+    draw_block_blinkchain(e2, 0, {16, 1})
+    draw_block_blinkchain(e2, 1, {17, 1})
+    draw_block_blinkchain(e2, 2, {18, 1})
+    draw_block_blinkchain(e2, 3, {16, 2})
+    draw_block_blinkchain(e2, 4, {18, 2})
+    draw_block_blinkchain(e2, 5, {16, 3})
+    draw_block_blinkchain(e2, 6, {17, 3})
+
+    Blinkchain.render()
+  end
+
+  def draw_block_blinkchain(letter, block, block_position) do
+    {block_x, block_y} = block_position
+
+    letter
+    |> Enum.at(block)
+    |> Enum.chunk_every(8)
+    |> Enum.with_index()
+    |> Enum.each(fn {row, rowindex} ->
+      row
+      |> Enum.with_index()
+      |> Enum.each(fn {colorstring, columnindex} ->
+        Blinkchain.set_pixel(
           %Blinkchain.Point{x: columnindex + block_x * 8, y: rowindex + block_y * 8},
           Blinkchain.Color.parse(colorstring)
         )
