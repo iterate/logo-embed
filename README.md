@@ -1,3 +1,5 @@
+# ⚠️ FLYTTA TIL https://github.com/iterate/logo-embed2 ⚠️
+
 # Logo
 
 ## Konfig
